@@ -9,5 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+@property IBOutlet UITextField *locationTextField;
+- (IBAction)ButtonPressed:(id)sender;
+
+@property IBOutlet UILabel * FirstCity;
+@property IBOutlet UILabel * SecondCity;
+
+@property IBOutlet UIButton * ButFirst;
+@property IBOutlet UIButton * ButSecond;
 
 @end
