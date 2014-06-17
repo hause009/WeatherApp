@@ -14,8 +14,9 @@
 
 @property IBOutlet UILabel * FirstCity;
 @property IBOutlet UILabel * SecondCity;
+@property IBOutlet UILabel * ThirdCity;
 
-@property IBOutlet UIButton * ButFirst;
-@property IBOutlet UIButton * ButSecond;
+@property IBOutlet UIView * ViewInfo;
+@property IBOutlet UIView * ViewCreat;
 
 @end

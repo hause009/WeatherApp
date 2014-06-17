@@ -19,6 +19,8 @@
 @implementation Info7days
 @synthesize Table;
 @synthesize Name;
+@synthesize latitude, longitude;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -28,8 +30,8 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        
-        [theWeather getCurrent2:@"Moscow"];
+        NSString * str = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/forecast/daily?lat=%f&lon=%f&cnt=7&mode=json", latitude, longitude];
+        [theWeather getCurrent:str :2];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             

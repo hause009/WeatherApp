@@ -22,35 +22,10 @@
     return self;
 }
 
-- (void)getCurrent:(NSString *)query
+- (void)getCurrent:(NSString *)query :(int)var
 {
-    /*
-    NSString *const BASE_URL_STRING = @"http://api.openweathermap.org/data/2.5/weather";
     
-    NSString *weatherURLText = [NSString stringWithFormat:@"%@?q=%@",
-                                BASE_URL_STRING, query];
-    NSURL *weatherURL = [NSURL URLWithString:weatherURLText];
-  
-    NSURLRequest *weatherRequest = [NSURLRequest requestWithURL:weatherURL];
-    
-    AFJSONRequestOperation *operation =
-    [AFJSONRequestOperation JSONRequestOperationWithRequest:weatherRequest
-                                                    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                        weatherServiceResponse = (NSDictionary *)JSON;
-                                                        [self parseWeatherServiceResponse];
-                                                    }
-                                                    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-                                                        weatherServiceResponse = @{};
-                                                    }
-     ];
-    
-    [operation start];
-     */
-    
-    NSString *const BASE_URL_STRING = @"http://api.openweathermap.org/data/2.5/weather";
-    
-    NSString *weatherURLText = [NSString stringWithFormat:@"%@?q=%@",BASE_URL_STRING, query];
-    NSURL *url = [NSURL URLWithString:weatherURLText];
+    NSURL *url = [NSURL URLWithString:query];
     
     NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     theRequest.HTTPMethod = @"GET";
@@ -64,7 +39,15 @@
     NSLog(@"%@",result);
     SBJsonParser *jsonParser = [[SBJsonParser alloc]init];
     weatherServiceResponse = [jsonParser objectWithString:result error:NULL];
-    [self parseWeatherServiceResponse];
+    
+    if (var == 1)
+    {
+        [self parseWeatherServiceResponse];
+    }
+   else if (var == 2)
+   {
+       [self parseWeatherServiceResponse2];
+   }
 }
 
 - (void)parseWeatherServiceResponse
@@ -114,7 +97,7 @@
     // name
     _city = weatherServiceResponse[@"city"][@"name"];
     
-        // weather
+    // temp
     NSArray * array1 = weatherServiceResponse[@"list"];
     NSDictionary * dic = [NSDictionary new];
     _ArrayTempCurrent = [NSMutableArray new];

@@ -9,9 +9,11 @@
 #import "AppDelegate.h"
 
 @implementation AppDelegate
+@synthesize userDefaults;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    userDefaults = [NSUserDefaults standardUserDefaults];
     // Override point for customization after application launch.
     return YES;
 }

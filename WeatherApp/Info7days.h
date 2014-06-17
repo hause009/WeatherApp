@@ -11,4 +11,7 @@
 @interface Info7days : UIViewController
 @property IBOutlet UITableView * Table;
 @property IBOutlet UILabel * Name;
+
+@property CGFloat latitude;
+@property CGFloat longitude;
 @end

@@ -13,8 +13,8 @@
 @property (nonatomic, copy, readonly) NSString *city;
 @property (nonatomic, copy, readonly) NSString *country;
 
-@property (nonatomic, readonly) CGFloat latitude;
-@property (nonatomic, readonly) CGFloat longitude;
+@property (nonatomic) CGFloat latitude;
+@property (nonatomic) CGFloat longitude;
 @property (nonatomic, copy, readonly) NSDate *reportTime;
 @property (nonatomic, copy, readonly) NSDate *sunrise;
 @property (nonatomic, copy, readonly) NSDate *sunset;
@@ -38,7 +38,6 @@
 // Methods
 // =======
 
-- (void)getCurrent:(NSString *)query;
-- (void)getCurrent2:(NSString *)query;
+- (void)getCurrent:(NSString *)query : (int) var;
 
 @end
