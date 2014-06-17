@@ -12,6 +12,6 @@
 @property IBOutlet UITableView * Table;
 @property IBOutlet UILabel * Name;
 
-@property CGFloat latitude;
-@property CGFloat longitude;
+@property  NSInteger idCity;
+
 @end

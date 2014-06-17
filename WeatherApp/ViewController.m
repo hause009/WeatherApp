@@ -53,41 +53,23 @@
     }
 }
 
--(IBAction)Restart:(id)sender
+-(void)Restart:(id)sender
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        NSString * str = @"http://api.openweathermap.org/data/2.5/weather?q=Moscow";
-        [theWeather1 getCurrent:str :1];
-        
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            
-            FirstCity.text = [NSString stringWithFormat:@"Temperature in Moscow: %2.1f C",theWeather1.tempCurrent];
-            
-        });
-        
-    });
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        NSString * str = @"http://api.openweathermap.org/data/2.5/weather?q=Saint-Petersburg";
-        [theWeather2 getCurrent:str :1];
-        
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            
-            SecondCity.text = [NSString stringWithFormat:@"Temperature in Saint-Petersburg: %2.1f C",theWeather2.tempCurrent];
-            
-        });
-        
-    });
-    
+    theWeather1 = [self PushInfo:theWeather1 :@"Moscow"];
+    theWeather2 = [self PushInfo:theWeather2 :@"Saint-Petersburg"];
+}
+
+-(void)ShowText
+{
+    FirstCity.text = [NSString stringWithFormat:@"Temperature in Moscow: %2.1f C",theWeather1.tempCurrent];
+    SecondCity.text = [NSString stringWithFormat:@"Temperature in Saint-Petersburg: %2.1f C",theWeather2.tempCurrent];
+    ThirdCity.text = [NSString stringWithFormat:@"Temperature in %@: %2.1f C",theWeather3.city,theWeather3.tempCurrent];
 }
 
 -(IBAction)Fest:(id)sender
 {
     [self PushInfo:theWeather1];
 }
-
 
 -(IBAction)Second:(id)sender
 {
@@ -130,35 +112,32 @@
 
 -(IBAction)FestDay:(id)sender
 {
-    [self PushDays:theWeather1.latitude :theWeather1.longitude];
+    [self PushDays:theWeather1.idCity];
 }
 
 
 -(IBAction)SecondDay:(id)sender
 {
-    [self PushDays:theWeather2.latitude :theWeather2.longitude];
+    [self PushDays:theWeather2.idCity];
 }
 
 -(IBAction)ThirdDay:(id)sender
 {
-    [self PushDays:theWeather3.latitude :theWeather3.longitude];
+    [self PushDays:theWeather3.idCity];
 }
 
--(void)PushDays:(CGFloat)lat : (CGFloat)lon
+-(void)PushDays:(NSInteger)idCity
 {
-    if (lat) {
-    UIStoryboard * storyboard = self.storyboard;
-    Info7days * vc= [storyboard instantiateViewControllerWithIdentifier:@"Info7days"];
-    vc.longitude = lon;
-    vc.latitude = lat;
-    [self.navigationController presentViewController:vc animated:YES completion:nil];
+    if (idCity) {
+        UIStoryboard * storyboard = self.storyboard;
+        Info7days * vc= [storyboard instantiateViewControllerWithIdentifier:@"Info7days"];
+        vc.idCity = idCity;
+        [self.navigationController presentViewController:vc animated:YES completion:nil];
     }
 }
 
-
 - (IBAction)ButtonPressed:(id)sender
 {
-
     theWeather4 = [[Weather alloc] init];
     
     NSString * str = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@",self.locationTextField.text];
@@ -197,25 +176,25 @@
     NSLog(@"%@",[delegat.userDefaults objectForKey:@"name"]);
 }
 
--(void)PushInfo:(Weather*)Object : (NSString*)String
-{
-    
-}
-
--(void)CreatView:(NSString*)String
+-(Weather *)PushInfo:(Weather*)Object : (NSString*)String
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         NSString * str = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@", String];
-        [theWeather3 getCurrent:str :1];
+        [Object getCurrent:str :1];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            
-            ThirdCity.text = [NSString stringWithFormat:@"Temperature in %@: %2.1f C",theWeather3.city,theWeather3.tempCurrent];
-            
+
+            [self ShowText];
         });
         
     });
+    return Object;
+}
+
+-(void)CreatView:(NSString*)String
+{
+    theWeather3 = [self PushInfo:theWeather3 :String];
     
     ViewCreat.frame = CGRectMake(0, 60, 320, 60);
     ViewInfo.frame = CGRectMake(0, ViewCreat.frame.origin.y+ViewCreat.frame.size.height, 320, 222);

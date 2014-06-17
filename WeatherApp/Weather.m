@@ -24,7 +24,6 @@
 
 - (void)getCurrent:(NSString *)query :(int)var
 {
-    
     NSURL *url = [NSURL URLWithString:query];
     
     NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
@@ -72,6 +71,9 @@
     // name
     _city = weatherServiceResponse[@"name"];
     
+    // id
+    _idCity = [weatherServiceResponse[@"id"] integerValue];
+    
     // rain
     _rain3hours = [weatherServiceResponse[@"rain"][@"3h"] integerValue];
     
@@ -93,7 +95,6 @@
 
 - (void)parseWeatherServiceResponse2
 {
-    
     // name
     _city = weatherServiceResponse[@"city"][@"name"];
     
@@ -114,41 +115,8 @@
         _reportTime = [NSDate dateWithTimeIntervalSince1970:[array1[i][@"dt"] doubleValue]];
         NSString * str2 = [NSString stringWithFormat:@"%@",_reportTime];
         [_ArrayData addObject:str2];
-
-    
     }
-    
-  
-    
 }
-
-- (void)getCurrent2:(NSString *)query
-{
-    
-    
-    //NSString *const BASE_URL_STRING = @"http://api.openweathermap.org/data/2.5/weather";
-    
-    //NSString *weatherURLText = [NSString stringWithFormat:@"%@?q=%@",BASE_URL_STRING, query];
-    
-    NSURL *url = [NSURL URLWithString:@"http://api.openweathermap.org/data/2.5/forecast/daily?lat=35&lon=139&cnt=2&mode=json"];
-    
-    NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    theRequest.HTTPMethod = @"GET";
-    [theRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    NSURLResponse* response;
-    NSError* error;
-    
-    NSData * Data = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&error];
-    NSString *result = [[NSString alloc]initWithData:Data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",result);
-    SBJsonParser *jsonParser = [[SBJsonParser alloc]init];
-    weatherServiceResponse = [jsonParser objectWithString:result error:NULL];
-    [self parseWeatherServiceResponse2];
-}
-
-
-
 
 + (double)kelvinToCelsius:(double)degreesKelvin
 {

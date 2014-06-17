@@ -24,6 +24,7 @@
 @property (nonatomic, copy, readonly) NSMutableArray *ArrayTempCurrent;
 @property (nonatomic, copy, readonly) NSMutableArray *ArrayData;
 // Quantitative
+@property (nonatomic, readonly) NSInteger idCity;
 @property (nonatomic, readonly) NSInteger cloudCover;
 @property (nonatomic, readonly) NSInteger humidity;
 @property (nonatomic, readonly) NSInteger pressure;

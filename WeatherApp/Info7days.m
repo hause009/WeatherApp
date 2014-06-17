@@ -19,18 +19,17 @@
 @implementation Info7days
 @synthesize Table;
 @synthesize Name;
-@synthesize latitude, longitude;
-
+@synthesize idCity;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-
+  
     theWeather = [[Weather alloc] init];
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        NSString * str = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/forecast/daily?lat=%f&lon=%f&cnt=7&mode=json", latitude, longitude];
+        NSString * str = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/forecast/daily?id=%d",idCity];
+        
         [theWeather getCurrent:str :2];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
